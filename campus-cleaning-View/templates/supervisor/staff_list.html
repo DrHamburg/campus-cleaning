@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Staff Management{% endblock %}
+{% block content %}
+  <div class="page-header">
+    <div>
+      <h1>Staff Management</h1>
+      <p>Cleaning staff who report to you.</p>
+    </div>
+    <a href="{{ url_for('staff.staff_new') }}" class="btn btn-primary" style="text-decoration: none;">+ Add Staff Member</a>
+  </div>
+
+  <form method="GET" action="{{ url_for('staff.list_staff') }}" class="filter-bar">
+    <div class="filter-field">
+      <label for="status">Status</label>
+      <select id="status" name="status">
+        <option value="" {{ 'selected' if not filter_status }}>All statuses</option>
+        <option value="Active" {{ 'selected' if filter_status == 'Active' }}>Active</option>
+        <option value="Inactive" {{ 'selected' if filter_status == 'Inactive' }}>Inactive</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-outline btn-sm">Apply</button>
+    <a href="{{ url_for('staff.list_staff') }}" class="btn btn-outline btn-sm">Clear</a>
+  </form>
+
+  <div class="card">
+    <table class="data-table">
+      <thead>
+        <tr><th>ID</th><th>Name</th><th>Phone</th><th>Assigned Area</th><th>Status</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        {% for s in staff %}
+        <tr>
+          <td>#{{ s.Staff_ID }}</td>
+          <td>{{ s.Name }}</td>
+          <td>{{ s.Phone_Number or '-' }}</td>
+          <td>{{ s.Assigned_Area }}</td>
+          <td><span class="badge badge-{{ 'completed' if s.Status == 'Active' else 'cancelled' }}">{{ s.Status }}</span></td>
+          <td>
+            <div class="row-actions">
+              <a href="{{ url_for('staff.staff_view', staff_id=s.Staff_ID) }}" class="btn btn-outline btn-sm">View</a>
+              <a href="{{ url_for('staff.staff_edit', staff_id=s.Staff_ID) }}" class="btn btn-outline btn-sm">Edit</a>
+              {% if s.Status == 'Active' %}
+              <form method="POST" action="{{ url_for('staff.staff_deactivate', staff_id=s.Staff_ID) }}" style="display:inline;">
+                <button type="submit" class="btn btn-danger btn-sm">Deactivate</button>
+              </form>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="loading-state">No staff match these filters.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

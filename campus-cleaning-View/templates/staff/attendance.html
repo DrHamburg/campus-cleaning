@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}My Attendance{% endblock %}
+{% block content %}
+  <div class="page-header">
+    <div>
+      <h1>My Attendance</h1>
+      <p>Check in when your shift starts, and check out when it ends.</p>
+    </div>
+  </div>
+
+  <div class="card" style="padding: 24px; max-width: 480px; margin-bottom: 18px;">
+    <h2 style="font-size: 1rem; margin-top: 0; margin-bottom: 12px;">Check In</h2>
+    <form method="POST" action="{{ url_for('attendance.staff_check_in') }}">
+      <div class="form-group">
+        <label for="shift_id">Shift</label>
+        <select id="shift_id" name="shift_id" required>
+          <option value="">Select a shift…</option>
+          {% for s in shifts %}
+          <option value="{{ s.Shift_ID }}">{{ s.Shift_Name }} ({{ s.Start_Time }} – {{ s.End_Time }})</option>
+          {% endfor %}
+        </select>
+        <p class="form-hint">Status is set automatically Present, if checked in more than 15 minutes after the shift starts then Late.</p>
+      </div>
+      <button type="submit" class="btn btn-primary">Check In</button>
+    </form>
+  </div>
+
+  {% if today_records %}
+  <div class="card" style="padding: 24px; max-width: 480px; margin-bottom: 18px;">
+    <h2 style="font-size: 1rem; margin-top: 0; margin-bottom: 12px;">Today</h2>
+    {% for r in today_records %}
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--color-border);">
+      <div>
+        <strong>{{ r.Shift_Name }}</strong>
+        <span class="badge badge-{{ 'completed' if r.Attendance_Status == 'Present' else 'pending' if r.Attendance_Status == 'Late' else 'cancelled' }}">{{ r.Attendance_Status }}</span>
+        <div style="font-size: 0.8rem; color: var(--color-text-muted); margin-top: 2px;">
+          In: {{ r.Check_In_Time }}{% if r.Check_Out_Time %} · Out: {{ r.Check_Out_Time }}{% endif %}
+        </div>
+      </div>
+      {% if not r.Check_Out_Time %}
+      <form method="POST" action="{{ url_for('attendance.staff_check_out', attendance_id=r.Attendance_ID) }}">
+        <button type="submit" class="btn btn-outline btn-sm">Check Out</button>
+      </form>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="page-header">
+    <div>
+      <h2 style="font-size: 1.1rem;">History</h2>
+    </div>
+  </div>
+
+  <form method="GET" action="{{ url_for('attendance.staff_attendance') }}" class="filter-bar">
+    <div class="filter-field">
+      <label for="date">Date</label>
+      <input type="date" id="date" name="date" value="{{ filter_date }}" />
+    </div>
+    <div class="filter-field">
+      <label for="status">Status</label>
+      <select id="status" name="status">
+        <option value="" {{ 'selected' if not filter_status }}>All statuses</option>
+        <option value="Present" {{ 'selected' if filter_status == 'Present' }}>Present</option>
+        <option value="Late" {{ 'selected' if filter_status == 'Late' }}>Late</option>
+        <option value="Absent" {{ 'selected' if filter_status == 'Absent' }}>Absent</option>
+        <option value="On Leave" {{ 'selected' if filter_status == 'On Leave' }}>On Leave</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-outline btn-sm">Apply</button>
+    <a href="{{ url_for('attendance.staff_attendance') }}" class="btn btn-outline btn-sm">Clear</a>
+  </form>
+
+  <div class="card">
+    <table class="data-table">
+      <thead>
+        <tr><th>Date</th><th>Shift</th><th>Check In</th><th>Check Out</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        {% for h in history %}
+        <tr>
+          <td>{{ h.Attendance_Date }}</td>
+          <td>{{ h.Shift_Name }}</td>
+          <td>{{ h.Check_In_Time or '—' }}</td>
+          <td>{{ h.Check_Out_Time or '—' }}</td>
+          <td><span class="badge badge-{{ 'completed' if h.Attendance_Status == 'Present' else 'pending' if h.Attendance_Status == 'Late' else 'cancelled' }}">{{ h.Attendance_Status }}</span></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="loading-state">No attendance records match these filters.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Material Handouts{% endblock %}
+{% block content %}
+  <div class="page-header">
+    <div>
+      <h1>Material Handouts</h1>
+      <p>Materials issued to your staff.</p>
+    </div>
+    <a href="{{ url_for('handouts.supervisor_handout_new') }}" class="btn btn-primary" style="text-decoration: none;">+ New Handout</a>
+  </div>
+  <div class="card">
+    <table class="data-table">
+      <thead><tr><th>ID</th><th>Staff</th><th>Date</th><th>Purpose</th><th>Actions</th></tr></thead>
+      <tbody>
+        {% for h in handouts %}
+        <tr>
+          <td>#{{ h.Handout_ID }}</td>
+          <td>{{ h.Staff_Name }}</td>
+          <td>{{ h.Handout_Date }}</td>
+          <td>{{ h.Usage_Purpose or '—' }}</td>
+          <td><a href="{{ url_for('handouts.supervisor_handout_detail', handout_id=h.Handout_ID) }}" class="btn btn-outline btn-sm">View</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="loading-state">No handouts yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

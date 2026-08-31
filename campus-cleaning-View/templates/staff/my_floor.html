@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}My Floor{% endblock %}
+{% block content %}
+  <div class="page-header">
+    <div>
+      <h1>My Floor</h1>
+      <p>Cleaning staff working on the same floor as you.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <table class="data-table">
+      <thead>
+        <tr><th>Name</th><th>Block</th></tr>
+      </thead>
+      <tbody>
+        {% for c in coworkers %}
+        <tr>
+          <td>{{ c.Name }}{% if c.Staff_ID == session_staff_id %} (You){% endif %}</td>
+          <td>Block {{ c.Assigned_Block }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="2" class="loading-state">No staff found for your floor.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

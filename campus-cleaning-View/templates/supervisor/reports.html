@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+  <div class="page-header">
+    <div><h1>Reports</h1><p>Operational reports for your floor. Material inventory is campus-wide.</p></div>
+  </div>
+
+  <h2 style="font-size: 1rem; margin: 20px 0 10px 0;">Staff Performance</h2>
+  <div class="card">
+    <table class="data-table">
+      <thead><tr><th>Staff</th><th>Total Tasks</th><th>Completed</th><th>Pending</th><th>Completion Rate</th></tr></thead>
+      <tbody>
+        {% for r in staff_perf %}
+        <tr>
+          <td>{{ r.Name }}</td><td>{{ r.Total_Tasks }}</td><td>{{ r.Completed_Tasks }}</td><td>{{ r.Pending_Tasks }}</td>
+          <td>{{ r.Completion_Rate ~ '%' if r.Completion_Rate is not none else '-' }}</td>
+        </tr>
+        {% else %}<tr><td colspan="5" class="loading-state">No staff yet.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 style="font-size: 1rem; margin: 24px 0 10px 0;">Attendance Summary</h2>
+  <div class="card">
+    <table class="data-table">
+      <thead><tr><th>Staff</th><th>Present</th><th>Late</th><th>Absent</th><th>Total Records</th></tr></thead>
+      <tbody>
+        {% for r in attendance %}
+        <tr><td>{{ r.Name }}</td><td>{{ r.Present_Count }}</td><td>{{ r.Late_Count }}</td><td>{{ r.Absent_Count }}</td><td>{{ r.Total_Records }}</td></tr>
+        {% else %}<tr><td colspan="5" class="loading-state">No attendance records yet.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 style="font-size: 1rem; margin: 24px 0 10px 0;">Task Report by Location</h2>
+  <div class="card">
+    <table class="data-table">
+      <thead><tr><th>Location</th><th>Total</th><th>Completed</th><th>Pending</th><th>In Progress</th></tr></thead>
+      <tbody>
+        {% for r in task_by_location %}
+        <tr><td>{{ r.Location_ID }}</td><td>{{ r.Total_Tasks }}</td><td>{{ r.Completed }}</td><td>{{ r.Pending }}</td><td>{{ r.In_Progress }}</td></tr>
+        {% else %}<tr><td colspan="5" class="loading-state">No tasks yet.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 style="font-size: 1rem; margin: 24px 0 10px 0;">Issue Report</h2>
+  <div class="card">
+    <table class="data-table">
+      <thead><tr><th>Type</th><th>Priority</th><th>Status</th><th>Count</th></tr></thead>
+      <tbody>
+        {% for r in issues %}
+        <tr><td>{{ r.Issue_Type }}</td><td>{{ r.Priority }}</td><td>{{ r.Issue_Status }}</td><td>{{ r.Count }}</td></tr>
+        {% else %}<tr><td colspan="4" class="loading-state">No issues yet.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 style="font-size: 1rem; margin: 24px 0 10px 0;">Material Inventory Report <span style="font-weight: normal; color: var(--color-text-muted); font-size: 0.8rem;">(campus-wide)</span></h2>
+  <div class="card">
+    <table class="data-table">
+      <thead><tr><th>Material</th><th>Current Stock</th><th>Reorder Level</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for m in materials %}
+        <tr>
+          <td>{{ m.Material_Name }}</td><td>{{ m.Current_Stock }}</td><td>{{ m.Reorder_Level }}</td>
+          <td><span class="badge badge-{{ 'completed' if m.Material_Status == 'Available' else 'pending' if m.Material_Status == 'Low Stock' else 'cancelled' }}">{{ m.Material_Status }}</span></td>
+        </tr>
+        {% else %}<tr><td colspan="4" class="loading-state">No materials yet.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
