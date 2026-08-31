@@ -1,8 +1,0 @@
-Flask==3.0.3
-Flask-Session==0.8.0
-mysql-connector-python==8.4.0
-bcrypt==4.2.0
-python-dotenv==1.0.1
-
-pip install -r requirements.txt (Copy and Cut this line and paste in on Terminal)
-python -m pip install -r requirements.txt (for bash, Copy and Cut this line and paste in on Terminal)
