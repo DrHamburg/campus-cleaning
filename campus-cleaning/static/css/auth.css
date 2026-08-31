@@ -1,0 +1,223 @@
+/* frontend/css/auth.css
+   Shared styling for all authentication pages. */
+
+:root {
+  --color-primary: #1c4e80;
+  --color-primary-dark: #143a5f;
+  --color-accent: #2e8b57;
+  --color-bg: #f2f5f8;
+  --color-card: #ffffff;
+  --color-text: #1a1f2b;
+  --color-text-muted: #5b6472;
+  --color-border: #d9dfe6;
+  --color-error-bg: #fdecec;
+  --color-error-text: #b3261e;
+  --color-success-bg: #e9f7ef;
+  --color-success-text: #1e7e42;
+  --radius: 10px;
+  --shadow: 0 10px 30px rgba(20, 58, 95, 0.12);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(160deg, var(--color-bg) 0%, #e4ecf3 100%);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth-shell {
+  width: 100%;
+  max-width: 420px;
+}
+
+.auth-brand {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.auth-brand .brand-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  line-height: 1.3;
+}
+
+.auth-brand .brand-subtitle {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.auth-card {
+  background: var(--color-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px 28px;
+}
+
+.auth-card h1 {
+  font-size: 1.25rem;
+  margin: 0 0 6px 0;
+  color: var(--color-text);
+}
+
+.auth-card p.auth-lead {
+  margin: 0 0 22px 0;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--color-text);
+}
+
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="text"],
+.form-group input[type="number"] {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  background: #fbfcfd;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(28, 78, 128, 0.15);
+  background: #fff;
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 44px;
+}
+
+.toggle-visibility {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.78rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  padding: 4px 6px;
+}
+
+.toggle-visibility:hover {
+  text-decoration: underline;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+}
+
+.btn-primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.auth-links {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.88rem;
+}
+
+.auth-links a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-links a:hover {
+  text-decoration: underline;
+}
+
+.alert {
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+  display: none;
+}
+
+.alert.show {
+  display: block;
+}
+
+.alert-error {
+  background: var(--color-error-bg);
+  color: var(--color-error-text);
+  border: 1px solid rgba(179, 38, 30, 0.25);
+}
+
+.alert-success {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+  border: 1px solid rgba(30, 126, 66, 0.25);
+}
+
+.hint {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  margin-top: 6px;
+}
+
+.field-error {
+  font-size: 0.78rem;
+  color: var(--color-error-text);
+  margin-top: 4px;
+  display: none;
+}
+
+.field-error.show {
+  display: block;
+}
+
+footer.auth-footer {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}

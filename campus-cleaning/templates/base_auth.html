@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Campus Cleaning{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}" />
+</head>
+<body>
+  <div class="auth-shell">
+    <div class="auth-brand">
+      <div class="brand-title">Campus Cleaning &amp; Facility<br />Management System</div>
+      <div class="brand-subtitle">University Staff Portal</div>
+    </div>
+
+    <div class="auth-card">
+      {% block auth_content %}{% endblock %}
+    </div>
+
+    {% block auth_footer %}{% endblock %}
+  </div>
+</body>
+</html>

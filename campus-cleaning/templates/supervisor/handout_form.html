@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}New Material Handout{% endblock %}
+{% block content %}
+  <div class="page-header">
+    <div><h1>New Material Handout</h1></div>
+  </div>
+  <div class="card" style="padding: 24px; max-width: 560px;">
+    <form method="POST" action="{{ url_for('handouts.supervisor_handout_create') }}">
+      <div class="form-group">
+        <label for="staff_id">Cleaning Staff</label>
+        <select id="staff_id" name="staff_id" required>
+          {% if not staff %}<option value="">No staff reporting to you</option>{% endif %}
+          {% for s in staff %}<option value="{{ s.Staff_ID }}">{{ s.Name }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="handout_date">Date</label>
+        <input type="date" id="handout_date" name="handout_date" required />
+      </div>
+      <div class="form-group">
+        <label for="purpose">Purpose</label>
+        <input type="text" id="purpose" name="purpose" placeholder="e.g. Routine Floor 4 cleaning" />
+      </div>
+
+      <h2 style="font-size: 0.95rem; margin: 18px 0 10px 0;">Materials</h2>
+      <p class="form-hint" style="margin-top: 0; margin-bottom: 12px;">Fill in as many rows as you need - leave the rest blank.</p>
+      {% for i in slots %}
+      <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+        <select name="material_id_{{ i }}" style="flex: 2;">
+          <option value="">— none —</option>
+          {% for m in materials %}
+          <option value="{{ m.Material_ID }}">{{ m.Material_Name }} ({{ m.Current_Stock }} in stock)</option>
+          {% endfor %}
+        </select>
+        <input type="number" name="quantity_{{ i }}" min="1" placeholder="Qty" style="flex: 1;" />
+      </div>
+      {% endfor %}
+
+      <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <a href="{{ url_for('handouts.supervisor_handout_list') }}" class="btn btn-outline">Cancel</a>
+        <button type="submit" class="btn btn-primary">Create Handout</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

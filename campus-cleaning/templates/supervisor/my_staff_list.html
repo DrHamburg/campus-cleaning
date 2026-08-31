@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}My Staff{% endblock %}
+{% block content %}
+  <div class="page-header">
+    <div>
+      <h1>My Staff</h1>
+      <p>Cleaning staff who report to you. Read-only - to edit or deactivate, use Staff Management in the sidebar.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <table class="data-table">
+      <thead>
+        <tr><th>ID</th><th>Name</th><th>Phone</th><th>Assigned Area</th><th>Status</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        {% for s in staff %}
+        <tr>
+          <td>#{{ s.Staff_ID }}</td>
+          <td>{{ s.Name }}</td>
+          <td>{{ s.Phone_Number or '—' }}</td>
+          <td>{{ s.Assigned_Area }}</td>
+          <td><span class="badge badge-{{ 'completed' if s.Status == 'Active' else 'cancelled' }}">{{ s.Status }}</span></td>
+          <td><a href="{{ url_for('staff.staff_view', staff_id=s.Staff_ID) }}" class="btn btn-outline btn-sm">View</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="loading-state">No staff reporting to you yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

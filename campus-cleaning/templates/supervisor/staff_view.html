@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}{{ staff.Name }} — Profile{% endblock %}
+{% block content %}
+  <div class="page-header">
+    <div>
+      <h1>{{ staff.Name }}</h1>
+      <p>Staff profile (read-only)</p>
+    </div>
+  </div>
+
+  <div class="card" style="padding: 24px; max-width: 520px;">
+    <dl class="detail-grid">
+      <dt>Staff ID</dt><dd>#{{ staff.Staff_ID }}</dd>
+      <dt>Name</dt><dd>{{ staff.Name }}</dd>
+      <dt>Email</dt><dd>{{ staff.Email }}</dd>
+      <dt>Phone</dt><dd>{{ staff.Phone_Number or '-' }}</dd>
+      <dt>Gender</dt><dd>{{ staff.Gender or '-' }}</dd>
+      <dt>Address</dt><dd>{{ staff.Address or '-' }}</dd>
+      <dt>NID</dt><dd>{{ staff.NID or '-' }}</dd>
+      <dt>Joined</dt><dd>{{ staff.Date_of_Joining }}</dd>
+      <dt>Assigned Block</dt><dd>Block {{ staff.Assigned_Block }}</dd>
+      <dt>Assigned Area</dt><dd>{{ staff.Assigned_Area }}</dd>
+      <dt>Status</dt><dd><span class="badge badge-{{ 'completed' if staff.Status == 'Active' else 'cancelled' }}">{{ staff.Status }}</span></dd>
+    </dl>
+
+    <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+      <a href="{{ url_for('staff.my_staff_list') }}" class="btn btn-outline">Back to My Staff</a>
+      <a href="{{ url_for('staff.list_staff') }}" class="btn btn-outline">Back to Staff Management</a>
+      <a href="{{ url_for('staff.staff_edit', staff_id=staff.Staff_ID) }}" class="btn btn-primary">Edit</a>
+    </div>
+  </div>
+{% endblock %}
